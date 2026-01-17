@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dubai2Djib - Premium Trading & Logistics</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    <style>
+        /* Hero Slider Styles */
+        .hero {
+            margin-top: 70px;
+            position: relative;
+            height: 600px;
+            overflow: hidden;
+        }
+
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slide-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.85) 0%, rgba(118, 75, 162, 0.85) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide-content {
+            text-align: center;
+            color: white;
+            max-width: 900px;
+            padding: 2rem;
+        }
+
+        .slide-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: fadeInUp 1s ease;
+        }
+
+        .slide-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .slider-controls {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .slider-dot.active {
+            background: white;
+            width: 30px;
+            border-radius: 6px;
+        }
+
+        .slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.3);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .slider-arrow:hover {
+            background: rgba(255,255,255,0.5);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .slider-arrow.prev {
+            left: 20px;
+        }
+
+        .slider-arrow.next {
+            right: 20px;
+        }
+
+        /* Featured Products Section */
+        .featured-products {
+            padding: 5rem 2rem;
+            background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-category {
+            color: #667eea;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .product-description {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .product-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                height: 500px;
+            }
+
+            .slide-content h1 {
+                font-size: 2rem;
+            }
+
+            .slide-content p {
+                font-size: 1rem;
+            }
+
+            .slider-arrow {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="logo">Dubai2Djib</div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#products" class="nav-link">Products</a></li>
+                <li><a href="#services" class="nav-link">Services</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Image Slider -->
+    <section id="home" class="hero">
+        <div class="slider-container">
+            <!-- Slide 1 -->
+            <div class="slide active">
+                <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1600&q=80" alt="Premium Products" class="slide-image">
+                <div class="slide-overlay">
+                    <div class="slide-content">
+                        <h1>Premium Trading Between Dubai & Djibouti/USA</h1>
+                        <p>Your trusted partner for seamless international trade and premium product sourcing</p>
+                        <div class="cta-buttons">
+                            <a href="#" id="hero-whatsapp-btn" class="btn btn-primary">
+                                <i class="fab fa-whatsapp"></i>
+                                Start Trading Now
+                            </a>
+                            <a href="#products" class="btn btn-outline">
+                                <i class="fas fa-shopping-bag"></i>
+                                View Products
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="slide">
+                <img src="https://images.unsplash.com/photo-1523474253046-8cd2748b5fd2?w=1600&q=80" alt="Electronics" class="slide-image">
+                <div class="slide-overlay">
+                    <div class="slide-content">
+                        <h1>Latest Electronics & Technology</h1>
+                        <p>Premium smartphones, laptops, and gadgets at competitive wholesale prices</p>
+                        <div class="cta-buttons">
+                            <a href="#" class="btn btn-primary whatsapp-trigger">
+                                <i class="fab fa-whatsapp"></i>
+                                Get Quote
+                            </a>
+                            <a href="#products" class="btn btn-outline">
+                                Explore Electronics
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="slide">
+                <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1600&q=80" alt="Fashion" class="slide-image">
+                <div class="slide-overlay">
+                    <div class="slide-content">
+                        <h1>Fashion & Luxury Goods</h1>
+                        <p>Designer clothing, perfumes, and accessories from Dubai's premium markets</p>
+                        <div class="cta-buttons">
+                            <a href="#" class="btn btn-primary whatsapp-trigger">
+                                <i class="fab fa-whatsapp"></i>
+                                Order Now
+                            </a>
+                            <a href="#products" class="btn btn-outline">
+                                View Collection
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4 -->
+            <div class="slide">
+                <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1600&q=80" alt="Logistics" class="slide-image">
+                <div class="slide-overlay">
+                    <div class="slide-content">
+                        <h1>Fast & Reliable Logistics</h1>
+                        <p>Express shipping from Dubai to Djibouti with real-time tracking</p>
+                        <div class="cta-buttons">
+                            <a href="#" class="btn btn-primary whatsapp-trigger">
+                                <i class="fab fa-whatsapp"></i>
+                                Contact Us
+                            </a>
+                            <a href="#services" class="btn btn-outline">
+                                Our Services
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slider Controls -->
+            <button class="slider-arrow prev" onclick="changeSlide(-1)">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slider-arrow next" onclick="changeSlide(1)">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            
+            <div class="slider-controls">
+                <span class="slider-dot active" onclick="goToSlide(0)"></span>
+                <span class="slider-dot" onclick="goToSlide(1)"></span>
+                <span class="slider-dot" onclick="goToSlide(2)"></span>
+                <span class="slider-dot" onclick="goToSlide(3)"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products Section -->
+    <section id="products" class="featured-products">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>New Products in Market</h2>
+                <p>Explore our latest arrivals from Dubai's premium wholesale markets</p>
+            </div>
+
+            <div class="products-grid">
+                <!-- Product 1 -->
+                <div class="product-card fade-in">
+                    <img src="https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=600&q=80" alt="iPhone 15 Pro" class="product-image">
+                    <div class="product-info">
+                        <div class="product-category">Electronics</div>
+                        <h3 class="product-title">Apple Laptops</h3>
+                        <p class="product-description">Latest flagship smartphone with A17 Pro chip, titanium design, and advanced camera system.</p>
+                        <span class="product-badge">NEW ARRIVAL</span>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-card fade-in">
+                    <img src="https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=600&q=80" alt="Perfumes" class="product-image">
+                    <div class="product-info">
+                        <div class="product-category">Cosmetics</div>
+                        <h3 class="product-title">Designer Perfumes</h3>
+                        <p class="product-description">Premium fragrances from top brands. Authentic luxury perfumes at wholesale prices.</p>
+                        <span class="product-badge">HOT SELLER</span>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product-card fade-in">
+                    <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&q=80" alt="Laptop" class="product-image">
+                    <div class="product-info">
+                        <div class="product-category">Electronics</div>
+                        <h3 class="product-title">MacBook Pro M3</h3>
+                        <p class="product-description">Powerful laptop with M3 chip, stunning display, and all-day battery life for professionals.</p>
+                        <span class="product-badge">TRENDING</span>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="product-card fade-in">
+                    <img src="https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=600&q=80" alt="Fashion" class="product-image">
+                    <div class="product-info">
+                        <div class="product-category">Fashion</div>
+                        <h3 class="product-title">Designer Clothing</h3>
+                        <p class="product-description">Latest fashion trends from Dubai's premium boutiques. Men's and women's collections.</p>
+                        <span class="product-badge">EXCLUSIVE</span>
+                    </div>
+                </div>
+
+                <!-- Product 5 -->
+                <div class="product-card fade-in">
+                    <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&q=80" alt="Sunglasses" class="product-image">
+                    <div class="product-info">
+                        <div class="product-category">Accessories</div>
+                        <h3 class="product-title">Luxury Sunglasses</h3>
+                        <p class="product-description">Premium eyewear from top brands. UV protection with elegant designs.</p>
+                        <span class="product-badge">LIMITED</span>
+                    </div>
+                </div>
+
+                <!-- Product 6 -->
+                <div class="product-card fade-in">
+                    <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=80" alt="Watch" class="product-image">
+                    <div class="product-info">
+                        <div class="product-category">Accessories</div>
+                        <h3 class="product-title">Smart Watches</h3>
+                        <p class="product-description">Latest smartwatches with health tracking, fitness features, and premium design.</p>
+                        <span class="product-badge">BEST PRICE</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="services" class="features">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Our Premium Services</h2>
+                <p>Comprehensive trading and logistics solutions tailored for the Dubai-Djibouti corridor</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <h3>Express Logistics</h3>
+                    <p>Lightning-fast air and sea freight services with real-time tracking and insurance coverage for complete peace of mind.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3>Wholesale & Retail</h3>
+                    <p>Direct sourcing from Dubai's premium markets at competitive wholesale prices with flexible retail options.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-boxes"></i>
+                    </div>
+                    <h3>Product Variety</h3>
+                    <p>Extensive catalog including electronics, fashion, perfumes, cosmetics, automotive parts, and household essentials.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Secure Trading</h3>
+                    <p>Fully licensed and insured operations with comprehensive quality assurance and customer protection policies.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>24/7 Support</h3>
+                    <p>Round-the-clock customer service and order tracking with dedicated account managers for large volume clients.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <h3>Competitive Pricing</h3>
+                    <p>Transparent pricing with no hidden fees, bulk discounts, and flexible payment terms to maximize your profit margins.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text fade-in">
+                    <h2>Leading the Dubai-Djibouti Trade Corridor</h2>
+                    <p>"Based in Dubai, Serving Djibouti"
+
+                        As your local representative in Dubai, I personally source the best quality products at unbeatable prices. With direct access to Dubai's wholesale markets, free zones, and premium suppliers, I eliminate middlemen to bring you maximum savings.
+
+                        Why choose Dubai2Djib?
+                        - Local Dubai presence - I'm here on the ground for you
+                        - Direct wholesale access - No middleman markups
+                        - Personal quality checking - Every item inspected before shipping
+                        - Competitive pricing - Up to 40% savings compared to retail.
+                        - Fast shipping - Direct Dubai to Djibouti logistics
+                        - Trust & reliability - Your success is my business</p>
+                    <p>Our strategic location in Dubai's free trade zones, combined with our deep understanding of Djibouti's import regulations and market dynamics, allows us to provide unmatched value to our clients across both regions.</p>
+                    <div class="stats">
+                        <div class="stat">
+                            <h3>100+</h3>
+                            <p>Products Delivered</p>
+                        </div>
+                        <div class="stat">
+                            <h3>50+</h3>
+                            <p>Happy Clients</p>
+                        </div>
+                        <div class="stat">
+                            <h3>99%</h3>
+                            <p>On-Time Delivery</p>
+                        </div>
+                        <div class="stat">
+                            <h3>24h</h3>
+                            <p>Customer Support</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image fade-in">
+                    <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Dubai Port">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="contact-content">
+                <div class="contact-info fade-in">
+                    <h2>Get In Touch</h2>
+                    <p>Ready to start your trading journey? Contact our expert team today for personalized consultation and competitive quotes.</p>
+                    
+                    <a href="#" id="contact-whatsapp-link" class="contact-item" style="text-decoration: none; color: inherit; cursor: pointer; display: flex; align-items: center; gap: 15px;">
+                        <i class="fab fa-whatsapp"></i>
+                        <div>
+                            <h4>WhatsApp</h4>
+                            <p>Available 24/7</p>
+                        </div>
+                    </a>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p>abdourazakegh@gmail.com</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Location</h4>
+                            <p>Dubai, United Arab Emirates</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-container fade-in">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" class="form-control" placeholder="Enter your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" class="form-control" placeholder="Enter your phone number">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" class="form-control" placeholder="Tell us about your requirements..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">
+                            <i class="fab fa-whatsapp"></i>
+                            Send via WhatsApp
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Dubai2Djib</h3>
+                    <p>Your premium partner for Dubai-Djibouti trade corridor. Connecting businesses, delivering excellence.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <p><a href="#home">Home</a></p>
+                    <p><a href="#products">Products</a></p>
+                    <p><a href="#services">Services</a></p>
+                    <p><a href="#about">About Us</a></p>
+                    <p><a href="#contact">Contact</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Services</h3>
+                    <p>Express Logistics</p>
+                    <p>Wholesale Trading</p>
+                    <p>Product Sourcing</p>
+                    <p>Custom Clearance</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p>Dubai, UAE</p>
+                    <p><a href="#" id="footer-whatsapp-link" style="text-decoration: none; color: inherit; cursor: pointer;">WhatsApp Available</a></p>
+                    <p>abdourazakegh@gmail.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Dubai2Djib. All rights reserved. | Developed by Abdourazak Ali</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Slider functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.slider-dot');
+        let slideInterval;
+
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            currentSlide = (n + slides.length) % slides.length;
+            
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+
+        function changeSlide(n) {
+            showSlide(currentSlide + n);
+            resetInterval();
+        }
+
+        function goToSlide(n) {
+            showSlide(n);
+            resetInterval();
+        }
+
+        function resetInterval() {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(() => {
+                changeSlide(1);
+            }, 5000);
+        }
+
+        // Auto-play slider
+        slideInterval = setInterval(() => {
+            changeSlide(1);
+        }, 5000);
+
+        // Initialize all WhatsApp triggers in slider
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof CONFIG !== 'undefined' && CONFIG.whatsappNumber) {
+                const message = 'Hello! I am interested in your trading services between Dubai and Djibouti/USA.';
+                const whatsappURL = `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
+                
+                // All WhatsApp buttons in slider
+                document.querySelectorAll('.whatsapp-trigger').forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        window.open(whatsappURL, '_blank');
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
