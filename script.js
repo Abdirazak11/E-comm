@@ -591,3 +591,15 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+// Add to script.js
+function detectUserPreferences() {
+    // Detect user's location and show relevant products
+    const userRegion = detectRegion(); // Djibouti vs USA
+    
+    // Auto-translate based on browser language
+    const browserLang = navigator.language.startsWith('fr') ? 'fr' : 'en';
+    switchLanguage(browserLang);
+    
+    // Show personalized product recommendations
+    showRegionalProducts(userRegion);
+}
