@@ -591,7 +591,7 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
-// Add to script.js
+// 
 function detectUserPreferences() {
     // Detect user's location and show relevant products
     const userRegion = detectRegion(); // Djibouti vs USA
@@ -603,3 +603,31 @@ function detectUserPreferences() {
     // Show personalized product recommendations
     showRegionalProducts(userRegion);
 }
+//voice search
+function initVoiceSearch() {
+    if ('webkitSpeechRecognition' in window) {
+        const recognition = new webkitSpeechRecognition();
+        recognition.lang = currentLang === 'fr' ? 'fr-FR' : 'en-US';
+        
+        // Add voice search button
+        const voiceBtn = document.createElement('button');
+        voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+        voiceBtn.onclick = () => recognition.start();
+        
+        recognition.onresult = (e) => {
+            const query = e.results[0][0].transcript;
+            searchProducts(query);
+        };
+    }
+}
+function initInfiniteScroll() {
+    const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+            loadMoreProducts();
+        }
+    });
+    
+    const sentinel = document.querySelector('.products-grid-end');
+    if (sentinel) observer.observe(sentinel);
+}
+
